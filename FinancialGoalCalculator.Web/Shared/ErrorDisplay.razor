@@ -1,0 +1,10 @@
+﻿<ul>
+    @foreach (var item in ErrorMessages)
+    {
+        <li class="validation-message">@item</li>
+    }
+</ul>
+@code {
+    [Parameter]
+    public List<string> ErrorMessages { get; set; }
+}

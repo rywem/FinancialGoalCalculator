@@ -20,5 +20,10 @@ namespace FinancialGoalCalculator.Web.Services
                 _context.SaveChanges();
             }
         }
+
+        public Account GetAccountById(int Id)
+        {
+            return _context.Account.FirstOrDefault(x => x.Id == Id);
+        }
     }
 }

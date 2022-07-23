@@ -7,13 +7,28 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
     public partial class Upsert
     {
         [Parameter] public int? Id { get; set; }
-
-        private Account _Account;
         [Inject] private AccountService AccountService { get; set; }
 
-        protected override Task OnInitialized()
+        private Account _Account;
+        private List<string> _errors = new List<string>();
+
+        protected override void OnInitialized()
         {
-            return base.OnInitializedAsync();
+            _errors = new List<string>();
+            if (Id == null)
+            {
+                _Account = new Account();
+            }
+            else
+            {
+                var acct = AccountService.GetAccountById((int)Id);
+                if (acct != null)
+                    _Account = acct;
+                else
+                {
+                    _errors.Add("Account not found.");
+                }
+            }
         }
     }
 }

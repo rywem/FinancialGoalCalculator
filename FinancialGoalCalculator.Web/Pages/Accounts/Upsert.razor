@@ -1,11 +1,6 @@
 ﻿@page "/accounts/upsert"
 @page "/accounts/upsert/{Id:int}"
-<h3>Upsert</h3>
-
-@if(Id != null)
-{
-    <span>@Id</span>
-}
+<ErrorDisplay ErrorMessages="_errors" />
 
 @code {
 
