@@ -2,7 +2,7 @@
 using FinancialGoalCalculator.Web.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinancialGoalCalculator.Web.Entities
+namespace FinancialGoalCalculator.Web.Entities.Accounts
 {
     public class Account : IAccount
     {

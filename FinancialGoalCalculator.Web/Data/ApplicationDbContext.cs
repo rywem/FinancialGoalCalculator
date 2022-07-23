@@ -1,4 +1,5 @@
 ﻿using FinancialGoalCalculator.Web.Entities;
+using FinancialGoalCalculator.Web.Entities.Accounts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

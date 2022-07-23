@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialGoalCalculator.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220723141034_AddInitialEntities")]
+    [Migration("20220723141907_AddInitialEntities")]
     partial class AddInitialEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
 
-            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Account", b =>
+            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Accounts.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,7 +108,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Balance", b =>
                 {
-                    b.HasOne("FinancialGoalCalculator.Web.Entities.Account", "Account")
+                    b.HasOne("FinancialGoalCalculator.Web.Entities.Accounts.Account", "Account")
                         .WithMany("Balances")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -128,7 +128,7 @@ namespace FinancialGoalCalculator.Web.Migrations
                     b.Navigation("Job");
                 });
 
-            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Account", b =>
+            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Accounts.Account", b =>
                 {
                     b.Navigation("Balances");
                 });
