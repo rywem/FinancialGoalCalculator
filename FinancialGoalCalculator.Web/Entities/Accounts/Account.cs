@@ -13,5 +13,6 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
         public AccountType AccountType { get; set; }
         public bool Closed { get; set; } = false;
         public ICollection<Balance> Balances { get; set; }
+        public string Owner { get; set; }
     }
 }

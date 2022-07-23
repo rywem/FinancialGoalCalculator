@@ -1,4 +1,5 @@
 using FinancialGoalCalculator.Web.Data;
+using FinancialGoalCalculator.Web.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.EnableSensitiveDataLogging();
 });
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<BalanceService>();
 
 
 var app = builder.Build();
