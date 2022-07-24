@@ -21,9 +21,22 @@ namespace FinancialGoalCalculator.Web.Services
             }
         }
 
+        public void UpdateAccount(Account account)
+        {
+            if(account != null && account.Id > 0)
+            {
+                _context.Account.Update(account);
+                _context.SaveChanges();
+            }
+        }
+
         public Account GetAccountById(int Id)
         {
             return _context.Account.FirstOrDefault(x => x.Id == Id);
+        }
+        public List<Account> GetAccounts()
+        {
+            return _context.Account.ToList();
         }
     }
 }

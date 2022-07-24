@@ -1,11 +1,114 @@
 ﻿@page "/accounts/list"
 
-<NavLink href="accounts/upsert">
-    <span>Add Account</span>
-</NavLink>
-
-
-
-@code {
-
-}
+<div class="row">
+    <div class="col-md-2">
+        <NavLink href="accounts/upsert">
+            <span>Add Account</span>
+        </NavLink>
+    </div>
+    <div class="col-md-3">
+        <EditForm Model="@_model">
+            <InputCheckbox @bind-Value="_model.HideClosed"  @oninput="@(e => HideClosedCheckboxChanged(e))"></InputCheckbox>
+            <label>Hide Closed</label>
+        </EditForm>
+    </div>
+</div>
+<div class="row">
+    @if(_accounts != null && _accounts.Count > 0)
+    {
+        <h4>Debts</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Opened Date</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Closed</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var account in _accountsFiltered.Where(x => x.AccountType == Web.Enum.AccountType.Debt).ToList())
+                {                
+                    <tr>
+                      <th scope="row">@account.Id</th>
+                      <td>@account.Name</td>
+                      <td>@account.AccountType.ToString()</td>
+                      <td>@account.OpenedDate.ToString("MM/dd/yyyy")</td>
+                      <td>@account.Owner</td>
+                      <td>@account.Closed</td>
+                      <td><NavLink href="@($"accounts/upsert/{account.Id}")"><span>Edit</span></NavLink></td>
+                      <td><NavLink href="@($"balance/insert/{account.Id}")"><span>Insert Balance</span></NavLink></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <h4>Cash Accounts</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Opened Date</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Closed</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var account in _accountsFiltered.Where(x => x.AccountType == Web.Enum.AccountType.CashAccount).ToList())
+                {                
+                    <tr>
+                      <th scope="row">@account.Id</th>
+                      <td>@account.Name</td>
+                      <td>@account.AccountType.ToString()</td>
+                      <td>@account.OpenedDate.ToString("dd/MM/yyyy")</td>
+                      <td>@account.Owner</td>
+                      <td>@account.Closed</td>
+                      <td><NavLink href="@($"accounts/upsert/{account.Id}")"><span>Edit</span></NavLink></td>
+                      <td><NavLink href="@($"balance/insert/{account.Id}")"><span>Insert Balance</span></NavLink></td>
+                    </tr>
+                }
+            </tbody>
+        </table>        
+        <h4>Assets</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Opened Date</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Closed</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var account in _accountsFiltered.Where(x => x.AccountType == Web.Enum.AccountType.Asset).ToList())
+                {                
+                    <tr>
+                      <th scope="row">@account.Id</th>
+                      <td>@account.Name</td>
+                      <td>@account.AccountType.ToString()</td>
+                      <td>@account.OpenedDate.ToString("dd/MM/yyyy")</td>
+                      <td>@account.Owner</td>
+                      <td>@account.Closed</td>
+                      <td><NavLink href="@($"accounts/upsert/{account.Id}")"><span>Edit</span></NavLink></td>
+                      <td><NavLink href="@($"balance/insert/{account.Id}")"><span>Insert Balance</span></NavLink></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span>No accounts found. Please add an account.</span>
+    }
+</div>

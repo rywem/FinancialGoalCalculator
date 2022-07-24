@@ -1,7 +1,53 @@
 ﻿@page "/accounts/upsert"
 @page "/accounts/upsert/{Id:int}"
+@using FinancialGoalCalculator.Web.Enum
+
+<h3>@(isUpdate == true ? "Edit Account" : "Add Account")</h3>
+
 <ErrorDisplay ErrorMessages="_errors" />
+<div class="row">
+    <EditForm Model="_Account" OnValidSubmit="HandleSubmit">
+        <div class="shadow p-4">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="Name">Account Name</label>
+                    <InputText class="form-control" @bind-Value="_Account.Name" />
+                    <ValidationMessage For="() => _Account.Name" />
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="Name">Account Type</label>
+                    <InputSelect class="form-control" 
+                        ValueExpression="@(() => _Account.AccountType)"
+                        Value="@_Account.AccountType"
+                        ValueChanged="@((AccountType value) => OnAccountTypeValueChanged(value))"
+                        >
+                        <option value="@(AccountType.Asset)">Asset</option>
+                        <option value="@(AccountType.CashAccount)">Cash Account</option>
+                        <option value="@(AccountType.Debt)">Debt</option>
+                    </InputSelect>
+                    <ValidationMessage For="() => _Account.OpenedDate" />
+                </div>
+                 <div class="col-md-3 mb-3">
+                    <label for="Name">Account Owner</label>
+                    <InputText class="form-control" @bind-Value="_Account.Owner" />
+                    <ValidationMessage For="() => _Account.Owner" />
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="Name">Opened Date</label>
+                    <InputDate class="form-control" @bind-Value="_Account.OpenedDate" />
+                    <ValidationMessage For="() => _Account.OpenedDate" />
+                </div>
+            </div>            
+            <hr class="mb-4" />
+            <div>
+                <InputCheckbox @bind-Value="_Account.Closed" />
+                <label for="Name" class="custom-control-label">Check this box if Account is closed</label>
+                <ValidationMessage For="() => _Account.Closed" />
+            </div>
+            <hr class="mb-4" />
+             <input type="submit" class="btn btn-success" value="Submit"/>
+        </div>
+    </EditForm>
+</div>
 
-@code {
 
-}
