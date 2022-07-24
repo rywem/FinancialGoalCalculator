@@ -1,114 +1,209 @@
 ﻿@page "/accounts/list"
 
-<div class="row">
-    <div class="col-md-2">
-        <NavLink href="accounts/upsert">
-            <span>Add Account</span>
-        </NavLink>
+@if(_loading == true )
+{
+    <Loading />
+}
+else
+{
+    <ErrorDisplay ErrorMessages="_errors" />
+    <div class="row">
+        <div class="col-md-2">
+            <NavLink href="accounts/upsert">
+                <span>Add Account</span>
+            </NavLink>
+        </div>
+        <div class="col-md-3">
+            <EditForm Model="@_model">
+                <InputCheckbox @bind-Value="_model.HideClosed"  @oninput="@(e => HideClosedCheckboxChanged(e))"></InputCheckbox>
+                <label>Hide Closed</label>
+            </EditForm>
+        </div>
     </div>
-    <div class="col-md-3">
-        <EditForm Model="@_model">
-            <InputCheckbox @bind-Value="_model.HideClosed"  @oninput="@(e => HideClosedCheckboxChanged(e))"></InputCheckbox>
-            <label>Hide Closed</label>
-        </EditForm>
+    <div class="row">
+        @if(_accounts != null && _accounts.Count > 0)
+        {
+            <h4>Debts</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Opened Date</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Closed</th>
+                        <th scope="col">Last Balance</th>
+                        <th scope="col">Quick Balance</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var accountRow in _accountsFiltered.Where(x => x.Account.AccountType == Web.Enum.AccountType.Debt).ToList())
+                    {                
+                        <tr>
+                          <th scope="row">@accountRow.Account.Id</th>
+                          <td>@accountRow.Account.Name</td>
+                          <td>@accountRow.Account.AccountType.ToString()</td>
+                          <td>@accountRow.Account.OpenedDate.ToString("MM/dd/yyyy")</td>
+                          <td>@accountRow.Account.Owner</td>
+                          <td>@accountRow.Account.Closed</td>
+                          <td>@accountRow.Account.GetLastBalance().ToString("c")</td>
+                           <td class="td-width">
+                                @if(accountRow.ShowBalanceInsert == false)
+                                {
+                                    <button type="button" class="badge btn-danger" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-plus"></i></button>
+                                }
+                                else
+                                {
+                                    <EditForm Model="accountRow.NewBalance" >
+                                        <InputNumber @bind-Value="accountRow.NewBalance.BalanceAmount" class="w-tb"></InputNumber>
+                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalance(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
+                                        <button type="button" class="badge btn-warning" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-ban"></i></button>
+                                    </EditForm>
+                                }
+                            </td>
+                          <td><NavLink href="@($"accounts/upsert/{accountRow.Account.Id}")"><span>Edit</span></NavLink></td>
+                          <td><NavLink href="@($"account/details/{accountRow.Account.Id}")"><span>Details</span></NavLink></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <th scope="row">Total</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th scope="col">@(GetTotalCurrentBalance(Web.Enum.AccountType.Debt).ToString("c"))</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>Cash Accounts</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Opened Date</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Closed</th>
+                        <th scope="col">Last Balance</th>
+                        <th scope="col">Quick Balance</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var accountRow in _accountsFiltered.Where(x => x.Account.AccountType == Web.Enum.AccountType.CashAccount).ToList())
+                    {                
+                        <tr>
+                          <th scope="row">@accountRow.Account.Id</th>
+                          <td>@accountRow.Account.Name</td>
+                          <td>@accountRow.Account.AccountType.ToString()</td>
+                          <td>@accountRow.Account.OpenedDate.ToString("dd/MM/yyyy")</td>
+                          <td>@accountRow.Account.Owner</td>
+                          <td>@accountRow.Account.Closed</td>
+                          <td>@accountRow.Account.GetLastBalance().ToString("c")</td>
+                           <td class="td-width">
+                                @if(accountRow.ShowBalanceInsert == false)
+                                {
+                                    <button type="button" class="badge btn-danger" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-plus"></i></button>
+                                }
+                                else
+                                {
+                                    <EditForm Model="accountRow.NewBalance" >
+                                        <InputNumber @bind-Value="accountRow.NewBalance.BalanceAmount" class="w-tb"></InputNumber>
+                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalance(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
+                                        <button type="button" class="badge btn-warning" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-ban"></i></button>
+                                    </EditForm>
+                                }
+                            </td>
+                          <td><NavLink href="@($"accounts/upsert/{accountRow.Account.Id}")"><span>Edit</span></NavLink></td>
+                          <td><NavLink href="@($"account/details/{accountRow.Account.Id}")"><span>Details</span></NavLink></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <th scope="row">Total</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th scope="col">@(GetTotalCurrentBalance(Web.Enum.AccountType.CashAccount).ToString("c"))</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>        
+            <h4>Assets</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Opened Date</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Closed</th>
+                        <th scope="col">Last Balance</th>
+                        <th scope="col">Quick Balance</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var accountRow in _accountsFiltered.Where(x => x.Account.AccountType == Web.Enum.AccountType.Asset).ToList())
+                    {                
+                        <tr>
+                          <th scope="row">@accountRow.Account.Id</th>
+                          <td>@accountRow.Account.Name</td>
+                          <td>@accountRow.Account.AccountType.ToString()</td>
+                          <td>@accountRow.Account.OpenedDate.ToString("dd/MM/yyyy")</td>
+                          <td>@accountRow.Account.Owner</td>
+                          <td>@accountRow.Account.Closed</td>
+                          <td>@accountRow.Account.GetLastBalance().ToString("c")</td>
+                          <td class="td-width">
+                                @if(accountRow.ShowBalanceInsert == false)
+                                {
+                                    <button type="button" class="badge btn-danger" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-plus"></i></button>
+                                }
+                                else
+                                {
+                                    <EditForm Model="accountRow.NewBalance" >
+                                        <InputNumber @bind-Value="accountRow.NewBalance.BalanceAmount" class="w-tb"></InputNumber>
+                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalance(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
+                                        <button type="button" class="badge btn-warning" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-ban"></i></button>
+                                    </EditForm>
+                                }
+                            </td>
+                          <td><NavLink href="@($"accounts/upsert/{accountRow.Account.Id}")"><span>Edit</span></NavLink></td>   
+                          <td><NavLink href="@($"account/details/{accountRow.Account.Id}")"><span>Details</span></NavLink></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td></td>
+                        <th scope="row">Total</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th scope="col">@(GetTotalCurrentBalance(Web.Enum.AccountType.Asset).ToString("c"))</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <span>No accounts found. Please add an account.</span>
+        }
     </div>
-</div>
-<div class="row">
-    @if(_accounts != null && _accounts.Count > 0)
-    {
-        <h4>Debts</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Opened Date</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Closed</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var account in _accountsFiltered.Where(x => x.AccountType == Web.Enum.AccountType.Debt).ToList())
-                {                
-                    <tr>
-                      <th scope="row">@account.Id</th>
-                      <td>@account.Name</td>
-                      <td>@account.AccountType.ToString()</td>
-                      <td>@account.OpenedDate.ToString("MM/dd/yyyy")</td>
-                      <td>@account.Owner</td>
-                      <td>@account.Closed</td>
-                      <td><NavLink href="@($"accounts/upsert/{account.Id}")"><span>Edit</span></NavLink></td>
-                      <td><NavLink href="@($"balance/insert/{account.Id}")"><span>Insert Balance</span></NavLink></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <h4>Cash Accounts</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Opened Date</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Closed</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var account in _accountsFiltered.Where(x => x.AccountType == Web.Enum.AccountType.CashAccount).ToList())
-                {                
-                    <tr>
-                      <th scope="row">@account.Id</th>
-                      <td>@account.Name</td>
-                      <td>@account.AccountType.ToString()</td>
-                      <td>@account.OpenedDate.ToString("dd/MM/yyyy")</td>
-                      <td>@account.Owner</td>
-                      <td>@account.Closed</td>
-                      <td><NavLink href="@($"accounts/upsert/{account.Id}")"><span>Edit</span></NavLink></td>
-                      <td><NavLink href="@($"balance/insert/{account.Id}")"><span>Insert Balance</span></NavLink></td>
-                    </tr>
-                }
-            </tbody>
-        </table>        
-        <h4>Assets</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Opened Date</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Closed</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var account in _accountsFiltered.Where(x => x.AccountType == Web.Enum.AccountType.Asset).ToList())
-                {                
-                    <tr>
-                      <th scope="row">@account.Id</th>
-                      <td>@account.Name</td>
-                      <td>@account.AccountType.ToString()</td>
-                      <td>@account.OpenedDate.ToString("dd/MM/yyyy")</td>
-                      <td>@account.Owner</td>
-                      <td>@account.Closed</td>
-                      <td><NavLink href="@($"accounts/upsert/{account.Id}")"><span>Edit</span></NavLink></td>
-                      <td><NavLink href="@($"balance/insert/{account.Id}")"><span>Insert Balance</span></NavLink></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <span>No accounts found. Please add an account.</span>
-    }
-</div>
+}

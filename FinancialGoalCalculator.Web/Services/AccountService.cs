@@ -1,5 +1,7 @@
 ﻿using FinancialGoalCalculator.Web.Data;
 using FinancialGoalCalculator.Web.Entities.Accounts;
+using FinancialGoalCalculator.Web.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinancialGoalCalculator.Web.Services
 {
@@ -36,7 +38,7 @@ namespace FinancialGoalCalculator.Web.Services
         }
         public List<Account> GetAccounts()
         {
-            return _context.Account.ToList();
+            return _context.Account.Include("Balances").ToList();
         }
     }
 }

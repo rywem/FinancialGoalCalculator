@@ -13,9 +13,13 @@ namespace FinancialGoalCalculator.Web.Services
             _context = context;
         }
 
-        public void AddBalance(Balance newBalance, Account account)
+        public void AddBalance(Balance newBalance)
         {
-            throw new NotImplementedException();
+            if(newBalance != null)
+            {
+                _context.Balance.Add(newBalance);
+                _context.SaveChanges();
+            }
         }
     }
 }

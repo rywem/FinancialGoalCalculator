@@ -92,3 +92,10 @@ element.style {
     z-index: -1;
     opacity: 0;
 }
+
+.w-tb {
+    width: 100px;
+}
+.td-width {
+    width: 200px;
+}

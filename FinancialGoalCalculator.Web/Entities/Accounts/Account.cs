@@ -16,7 +16,7 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
         public DateTime OpenedDate { get; set; }
         public AccountType AccountType { get; set; }
         public bool Closed { get; set; } = false;
-        public ICollection<Balance> Balances { get; set; }
+        public virtual ICollection<Balance> Balances { get; set; }
         [Required]
         [MaxLength(50)]
         [StringLength(50)]
@@ -24,6 +24,14 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
         public Account()
         {
             OpenedDate = DateTime.Now;
+        }
+
+        public decimal GetLastBalance()
+        {
+            if (Balances != null && Balances.Count > 0)
+                return Balances.OrderByDescending(x => x.Date).FirstOrDefault().BalanceAmount;
+            else 
+                return 0.0m;
         }
     }
 }
