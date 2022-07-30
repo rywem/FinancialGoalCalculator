@@ -12,6 +12,7 @@ namespace FinancialGoalCalculator.Web.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Account> Account { get; set; }
+        public DbSet<LoanDetail> LoanDetail { get; set; }
         public DbSet<Balance> Balance { get; set; }
         public DbSet<Job> Job { get; set; }
         public DbSet<JobSalary> JobSalary { get; set; }

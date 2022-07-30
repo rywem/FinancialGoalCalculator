@@ -17,6 +17,7 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
         public AccountType AccountType { get; set; }
         public bool Closed { get; set; } = false;
         public virtual ICollection<Balance> Balances { get; set; }
+        public LoanDetail LoanDetail { get; set; }
         [Required]
         [MaxLength(50)]
         [StringLength(50)]
