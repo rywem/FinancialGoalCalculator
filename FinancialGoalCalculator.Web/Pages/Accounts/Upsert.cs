@@ -15,7 +15,8 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
         private Account _Account;
         private List<string> _errors = new List<string>();
         bool isUpdate = false;
-        protected override void OnInitialized()
+
+        protected override async Task OnInitializedAsync()
         {
             _errors = new List<string>();
             if (Id == null)
@@ -25,7 +26,7 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
             }
             else
             {
-                var acct = AccountService.GetAccountById((int)Id);
+                var acct = await AccountService.GetAccountByIdAsync((int)Id);
 
                 if (acct != null)
                 {
@@ -38,8 +39,12 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
                 }
             }
         }
+        protected override void OnInitialized()
+        {
+            
+        }
 
-        private void HandleSubmit()
+        private async Task HandleSubmit()
         {
             _errors = new List<string>();
             if (_Account != null)
@@ -53,7 +58,7 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
                 {
                     try
                     {
-                        AccountService.UpdateAccount(_Account);
+                        await AccountService.UpdateAccountAsync(_Account);
                     }
                     catch (Exception ex)
                     {
@@ -64,7 +69,7 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
                 {
                     try
                     {
-                        AccountService.AddAccount(_Account);
+                        await AccountService.AddAccountAsync(_Account);
                     }
                     catch (Exception ex)
                     {
@@ -77,8 +82,7 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
 
         private void OnAccountTypeValueChanged(AccountType value)
         {
-            _Account.AccountType = value;
-            //StateHasChanged();
+            _Account.AccountType = value;            
         }
     }
 }

@@ -1,0 +1,54 @@
+﻿@page "/scenarios/list"
+
+@if(_loading == true )
+{
+    <Loading />
+}
+else
+{
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success" @onclick="showHideCreate">Quick Create</button>
+        </div>
+    </div>
+        @if(_showCreate == true)
+        {
+            <div class="row d-flex">
+                <EditForm Model="_newScenario" OnValidSubmit="HandleSubmit">
+                    <div class="col-md-2">
+                        <label for="Name">Name</label>
+                        <InputText class="form-control" @bind-Value="_newScenario.Name" />
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-warning">Create</button>
+                    </div>
+                </EditForm>
+            </div>
+        }    
+    <div class="row">
+        @if(_scenarios != null && _scenarios.Count > 0)
+        {
+            <table class="table">            
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var scenario in _scenarios)
+                    {
+                        <tr>
+                            <th scope="row">@scenario.Id</th>
+                            <td>@scenario.Name</td>
+                            <td> <NavLink href="@($"scenario/build/{scenario.Id}")"><span>Build</span></NavLink></td>
+                            <td> <NavLink href="@($"scenario/run/{scenario.Id}")"><span>Run</span></NavLink></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+}

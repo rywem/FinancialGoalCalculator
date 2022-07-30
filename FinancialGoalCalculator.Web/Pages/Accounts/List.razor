@@ -59,7 +59,7 @@ else
                                 {
                                     <EditForm Model="accountRow.NewBalance" >
                                         <InputNumber @bind-Value="accountRow.NewBalance.BalanceAmount" class="w-tb"></InputNumber>
-                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalance(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
+                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalanceAsync(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
                                         <button type="button" class="badge btn-warning" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-ban"></i></button>
                                     </EditForm>
                                 }
@@ -118,7 +118,7 @@ else
                                 {
                                     <EditForm Model="accountRow.NewBalance" >
                                         <InputNumber @bind-Value="accountRow.NewBalance.BalanceAmount" class="w-tb"></InputNumber>
-                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalance(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
+                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalanceAsync(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
                                         <button type="button" class="badge btn-warning" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-ban"></i></button>
                                     </EditForm>
                                 }
@@ -177,7 +177,7 @@ else
                                 {
                                     <EditForm Model="accountRow.NewBalance" >
                                         <InputNumber @bind-Value="accountRow.NewBalance.BalanceAmount" class="w-tb"></InputNumber>
-                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalance(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
+                                        <button type="button" class="badge btn-success" @onclick="@(() => AddQuickBalanceAsync(accountRow.NewBalance))" ><i class="fa-solid fa-square-check"></i></button>
                                         <button type="button" class="badge btn-warning" @onclick="@(() => ShowHideBalanceHandler(accountRow))"><i class="fa-solid fa-ban"></i></button>
                                     </EditForm>
                                 }

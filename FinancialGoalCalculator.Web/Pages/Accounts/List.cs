@@ -14,16 +14,16 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
         private FormModel _model { get; set; } = new FormModel();
         private List<string> _errors = new List<string>();
         private bool _loading = false;
-
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             _loading = true;
-            Load();
+            await Load();
             _loading = false;
         }
-        private void Load()
+
+        private async Task Load()
         {
-            _accounts = AccountRowModel.GetAccountRows(AccountService.GetAccounts()).ToList();
+            _accounts = AccountRowModel.GetAccountRows(await AccountService.GetAccountsAsync()).ToList();
             _accountsFiltered = _accounts;
         }
 
@@ -54,20 +54,20 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
             public bool HideClosed { get; set; } = false;
         }
 
-        private void AddQuickBalance(Balance newBalance)
+        private async Task AddQuickBalanceAsync(Balance newBalance)
         {
             _loading = true;
             _errors = new List<string>();
             try
             {
                 newBalance.Date = DateTime.Now;
-                BalanceService.AddBalance(newBalance);
+                await BalanceService.AddBalanceAsync(newBalance);
             }
             catch(Exception ex)
             {
                 _errors = ErrorHelper.GetErrors(ex);
             }
-            Load();
+            await Load();
             _loading = false;
         }
     }

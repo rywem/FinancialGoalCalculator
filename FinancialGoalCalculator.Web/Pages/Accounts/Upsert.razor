@@ -15,7 +15,7 @@
                     <ValidationMessage For="() => _Account.Name" />
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="Name">Account Type</label>
+                    <label for="AccountType">Account Type</label>
                     <InputSelect class="form-control" 
                         ValueExpression="@(() => _Account.AccountType)"
                         Value="@_Account.AccountType"
@@ -28,12 +28,12 @@
                     <ValidationMessage For="() => _Account.OpenedDate" />
                 </div>
                  <div class="col-md-3 mb-3">
-                    <label for="Name">Account Owner</label>
+                    <label for="Owner">Account Owner</label>
                     <InputText class="form-control" @bind-Value="_Account.Owner" />
                     <ValidationMessage For="() => _Account.Owner" />
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="Name">Opened Date</label>
+                    <label for="OpenedDate">Opened Date</label>
                     <InputDate class="form-control" @bind-Value="_Account.OpenedDate" />
                     <ValidationMessage For="() => _Account.OpenedDate" />
                 </div>

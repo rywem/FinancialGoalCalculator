@@ -18,6 +18,7 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<BalanceService>();
+builder.Services.AddScoped<ScenarioService>();
 
 
 var app = builder.Build();

@@ -15,6 +15,7 @@ namespace FinancialGoalCalculator.Web.Data
         public DbSet<Balance> Balance { get; set; }
         public DbSet<Job> Job { get; set; }
         public DbSet<JobSalary> JobSalary { get; set; }
+        public DbSet<Scenario> Scenario { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

@@ -13,12 +13,12 @@ namespace FinancialGoalCalculator.Web.Services
             _context = context;
         }
 
-        public void AddBalance(Balance newBalance)
+        public async Task AddBalanceAsync(Balance newBalance)
         {
             if(newBalance != null)
             {
                 _context.Balance.Add(newBalance);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }
