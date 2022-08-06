@@ -70,5 +70,26 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
             await Load();
             _loading = false;
         }
+
+        private string GetDetailsLink(AccountRowModel accountRow)
+        {
+            string result = string.Empty;
+            if(accountRow != null)
+            {
+                if(accountRow.Account != null)
+                {
+                    if(accountRow.Account.AccountType == AccountType.Debt)
+                    {
+                        return $"/accounts/loans/details/{accountRow.Account.Id}";
+                    }
+                    else if (accountRow.Account.AccountType == AccountType.Asset)
+                    {
+                        return $"/accounts/asset/details/{accountRow.Account.Id}";
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

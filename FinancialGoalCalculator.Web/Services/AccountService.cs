@@ -33,9 +33,9 @@ namespace FinancialGoalCalculator.Web.Services
             }
         }
 
-        public async Task<Account> GetAccountByIdAsync(int Id)
+        public async Task<Account> GetAccountByIdAsync(int id)
         {
-            return await _context.Account.FirstOrDefaultAsync(x => x.Id == Id);
+            return await _context.Account.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<List<Account>> GetAccountsAsync()
         {

@@ -1,5 +1,84 @@
-﻿
-<h3>Details</h3>
+﻿@page "/accounts/loans/details/{AccountId:int}"
+
+<h3>@_Account.Name - @(isUpdate == true ? $"Edit Loan Details" : "Add Loan Details")</h3>
+<ErrorDisplay ErrorMessages="_errors" />
+<div class="row">
+    <EditForm Model="_loanDetail" OnValidSubmit="HandleSubmit">
+        <div class="shadow p-4">
+            <div class="row">
+                 <div class="col-md-2 mb-3">
+                    <label for="OriginalBalance">Original Balance</label>
+                    <InputNumber class="form-control" @bind-Value="_loanDetail.OriginalBalance" />
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="FirstPaymentDate">First Payment Date</label>
+                    <InputDate class="form-control" @bind-Value="_loanDetail.FirstPaymentDate" />
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="InterestRate">Interest Rate</label>
+                    <InputNumber class="form-control" @bind-Value="_loanDetail.InterestRate" />
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="Periods"># Periods</label>
+                    <InputNumber class="form-control" @bind-Value="_loanDetail.Periods" />
+                </div>                
+            </div>
+            <hr class="mb-4" />
+             <input type="submit" class="btn btn-success" value="Submit"/>
+             <br />
+             <span class="text-secondary">@result</span>
+        </div>
+    </EditForm>
+</div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="my-0">Monthly Payment</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-title">@payment.ToString("c")</div>
+            </div>
+        </div>
+    </div>
+     <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="my-0">Total Interest</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-title">@totalInterest.ToString("c")</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4 ">
+    <div class="col-md-12 shadow">
+        @if(_amortizationSchedule != null && _amortizationSchedule.Count > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th scope="col">Period Number</th>
+                    <th scope="col">Interest Amount</th>
+                    <th scope="col">Principle Amount</th>                
+                    <th scope="col">Balance Remaining</th>
+                    <th scope="col">Date of Payment</th>
+                </tr>
+                @foreach(var amort in _amortizationSchedule)
+                {
+                    <tr>
+                        <th scope="row">@amort.PeriodNumber</th>
+                        <td>@amort.InterestAmount.ToString("c")</td>
+                        <td>@amort.PrincipalAmount.ToString("c")</td>
+                        <td>@amort.PrincipalRemaining.ToString("c")</td>
+                        <td>@amort.DateOfPayment.ToString("MM/dd/yyyy")</td>                    
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
 
 @code {
 
