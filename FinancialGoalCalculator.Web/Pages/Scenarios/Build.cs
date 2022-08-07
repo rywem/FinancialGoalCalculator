@@ -2,5 +2,7 @@
 {
     public partial class Build
     {
+        [Parameter] public int ScenarioId { get; set; }
+
     }
 }

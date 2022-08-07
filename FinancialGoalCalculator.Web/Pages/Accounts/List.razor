@@ -158,7 +158,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var accountRow in _accountsFiltered.Where(x => x.Account.AccountType == Web.Enum.AccountType.Asset).ToList())
+                    @foreach(var accountRow in _accountsFiltered.Where(x => x.Account.AccountType == Web.Enum.AccountType.Asset || x.Account.AccountType == Web.Enum.AccountType.RetirementAccount).ToList())
                     {                
                         <tr>
                           <th scope="row">@accountRow.Account.Id</th>

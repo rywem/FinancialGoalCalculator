@@ -21,7 +21,8 @@
                         Value="@_Account.AccountType"
                         ValueChanged="@((AccountType value) => OnAccountTypeValueChanged(value))"
                         >
-                        <option value="@(AccountType.Asset)">Asset</option>
+                        <option value="@(AccountType.Asset)" selected="selected">Asset</option>
+                        <option value="@(AccountType.RetirementAccount)">Retirement Account</option>
                         <option value="@(AccountType.CashAccount)">Cash Account</option>
                         <option value="@(AccountType.Debt)">Debt</option>
                     </InputSelect>

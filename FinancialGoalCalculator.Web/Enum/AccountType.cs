@@ -3,7 +3,8 @@
     public enum AccountType
     {
         Debt,
-        Asset,        
-        CashAccount
+        Asset,   
+        CashAccount,
+        RetirementAccount
     }
 }
