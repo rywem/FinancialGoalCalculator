@@ -5,6 +5,8 @@
         Debt,
         Asset,   
         CashAccount,
-        RetirementAccount
+        RetirementAccount,
+        Mortgage,
+        RealEstateAsset
     }
 }

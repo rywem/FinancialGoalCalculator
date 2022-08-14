@@ -14,6 +14,7 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
         private FormModel _model { get; set; } = new FormModel();
         private List<string> _errors = new List<string>();
         private bool _loading = false;
+        private CurrentWorthModel _currentWorth;
         protected override async Task OnInitializedAsync()
         {
             _loading = true;
@@ -25,12 +26,17 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
         {
             _accounts = AccountRowModel.GetAccountRows(await AccountService.GetAccountsAsync()).ToList();
             _accountsFiltered = _accounts;
+            decimal totalDebt = GetTotalCurrentBalance(AccountType.Debt) + GetTotalCurrentBalance(AccountType.Mortgage);
+            decimal totalAssetsNonRetirement = GetTotalCurrentBalance(AccountType.Asset) + GetTotalCurrentBalance(AccountType.RealEstateAsset);
+            _currentWorth = new CurrentWorthModel(totalDebt, totalAssetsNonRetirement, GetTotalCurrentBalance(AccountType.RetirementAccount), 
+                GetTotalCurrentBalance(AccountType.CashAccount));            
         }
 
         private decimal GetTotalCurrentBalance(AccountType accountType)
         {
             return _accountsFiltered.Where(x => x.Account.AccountType == accountType).Sum(x => x.Account.GetLastBalance());
         }
+        
         private void HideClosedCheckboxChanged(ChangeEventArgs e)
         {
             bool currentValue = (bool)e.Value;

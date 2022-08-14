@@ -1,6 +1,30 @@
 ﻿@page "/scenario/build/{ScenarioId:int}"
-<h3>Build</h3>
 
-@code {
-
+@if(_accounts != null && _accounts.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Opened Date</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Closed</th>
+            <th scope="col">Last Balance</th>
+            <th scope="col"></th>
+        </tr>
+        @foreach(var account in _accounts)
+        {
+            <tr>
+                <th scope="row">@account.Id</th>
+                <td>@account.Name</td>
+                <td>@account.AccountType.ToString()</td>
+                <td>@account.OpenedDate.ToString("MM/dd/yyyy")</td>
+                <td>@account.Owner</td>
+                <td>@account.Closed</td>
+                <td>@account.GetLastBalance().ToString("c")</td>
+                <td><NavLink href="@(this.GetAddLink(account))"><span>Add</span></NavLink></td>
+            </tr>
+        }
+    </table>
 }

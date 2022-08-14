@@ -23,8 +23,10 @@
                         >
                         <option value="@(AccountType.Asset)" selected="selected">Asset</option>
                         <option value="@(AccountType.RetirementAccount)">Retirement Account</option>
+                        <option value="@(AccountType.RealEstateAsset)">Real Estate Asset</option>
                         <option value="@(AccountType.CashAccount)">Cash Account</option>
                         <option value="@(AccountType.Debt)">Debt</option>
+                        <option value="@(AccountType.Mortgage)">Mortgage Debt</option>
                     </InputSelect>
                     <ValidationMessage For="() => _Account.OpenedDate" />
                 </div>
