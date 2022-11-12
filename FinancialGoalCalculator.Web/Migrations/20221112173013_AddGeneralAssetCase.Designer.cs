@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialGoalCalculator.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221112144625_AddRealEstateAssetCase")]
-    partial class AddRealEstateAssetCase
+    [Migration("20221112173013_AddGeneralAssetCase")]
+    partial class AddGeneralAssetCase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,7 +103,7 @@ namespace FinancialGoalCalculator.Web.Migrations
                     b.ToTable("Balance");
                 });
 
-            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.RealEstateAssetCase", b =>
+            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.GeneralAssetCase", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,6 +113,9 @@ namespace FinancialGoalCalculator.Web.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("GrowthRate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Payment")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ScenarioId")
@@ -208,7 +211,7 @@ namespace FinancialGoalCalculator.Web.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.RealEstateAssetCase", b =>
+            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.GeneralAssetCase", b =>
                 {
                     b.HasOne("FinancialGoalCalculator.Web.Entities.Accounts.Account", "Account")
                         .WithMany()
@@ -217,7 +220,7 @@ namespace FinancialGoalCalculator.Web.Migrations
                         .IsRequired();
 
                     b.HasOne("FinancialGoalCalculator.Web.Entities.Scenario", "Scenario")
-                        .WithMany()
+                        .WithMany("RealEstateAssetCases")
                         .HasForeignKey("ScenarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -243,6 +246,11 @@ namespace FinancialGoalCalculator.Web.Migrations
                     b.Navigation("Balances");
 
                     b.Navigation("LoanDetail");
+                });
+
+            modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Scenario", b =>
+                {
+                    b.Navigation("RealEstateAssetCases");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,4 +18,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Cases\" />
+    <Folder Include="Models\Scenarios\" />
+  </ItemGroup>
+
 </Project>

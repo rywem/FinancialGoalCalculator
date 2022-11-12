@@ -1,6 +1,20 @@
 ﻿@page "/scenarios/add/asset/{ScenarioId:int}/{AccountId:int}"
-<h3>Asset</h3>
-@ScenarioId , @AccountId
-@code {
 
-}
+<div class="row">
+    <EditForm Model="_generalAssetCase" OnValidSubmit="HandleSubmit">
+        <div class="shadow p-4">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="Name">Payment ($)</label>
+                    <InputNumber class="form-control" @bind-Value="_generalAssetCase.Payment" />                    
+                </div>                
+                <div class="col-md-3 mb-3">
+                    <label for="Owner">Growth Rate (%)</label>
+                    <InputNumber class="form-control" @bind-Value="_generalAssetCase.GrowthRate" />                    
+                </div>                
+            </div>
+            <hr class="mb-4" />
+            <input type="submit" class="btn btn-success" value="Save" />
+        </div>
+    </EditForm>
+</div>

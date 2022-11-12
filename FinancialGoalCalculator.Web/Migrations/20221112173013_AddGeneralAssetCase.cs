@@ -4,7 +4,7 @@
 
 namespace FinancialGoalCalculator.Web.Migrations
 {
-    public partial class AddRealEstateAssetCase : Migration
+    public partial class AddGeneralAssetCase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace FinancialGoalCalculator.Web.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ScenarioId = table.Column<int>(type: "INTEGER", nullable: false),
                     AccountId = table.Column<int>(type: "INTEGER", nullable: false),
-                    GrowthRate = table.Column<decimal>(type: "TEXT", nullable: false)
+                    GrowthRate = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Payment = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -6,22 +6,23 @@ namespace FinancialGoalCalculator.Web.Pages.Scenarios.Add
     {
         [Parameter] public int ScenarioId { get; set; }
         [Parameter] public int AccountId { get; set; }
-        [Inject] private RealEstateAssetCaseService RealEstateAssetCaseService { get; set; }
+        [Inject] private GeneralAssetCaseService GeneralAssetCaseService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
-        private RealEstateAssetCase _realEstateAssetCase;
+        private GeneralAssetCase _generalAssetCase;
 
         protected override async Task OnInitializedAsync()
         {
-            _realEstateAssetCase = await RealEstateAssetCaseService.GetFirstOrNewAsync(ScenarioId, AccountId);
+            _generalAssetCase = await GeneralAssetCaseService.GetFirstOrNewAsync(ScenarioId, AccountId);
         }
 
         private async Task HandleSubmit()
         {
-            if(_realEstateAssetCase.Id == 0)            
-                await RealEstateAssetCaseService.CreateAsync(_realEstateAssetCase);            
+            _generalAssetCase.Payment = 0;
+            if (_generalAssetCase.Id == 0)            
+                await GeneralAssetCaseService.CreateAsync(_generalAssetCase);            
             else 
-                await RealEstateAssetCaseService.UpdateAsync(_realEstateAssetCase);
-            NavigationManager.NavigateTo($"scenarios/build/{_realEstateAssetCase.ScenarioId}");
+                await GeneralAssetCaseService.UpdateAsync(_generalAssetCase);
+            NavigationManager.NavigateTo($"scenarios/build/{_generalAssetCase.ScenarioId}");
 
         }
     }

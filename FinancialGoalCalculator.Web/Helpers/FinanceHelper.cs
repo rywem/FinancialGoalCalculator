@@ -1,9 +1,38 @@
-﻿using FinancialGoalCalculator.Web.Models;
+﻿using FinancialGoalCalculator.Web.Entities.Cases;
+using FinancialGoalCalculator.Web.Models;
 
 namespace FinancialGoalCalculator.Web.Helpers
 {
     public static class FinanceHelper
     {
+
+        public static IEnumerable<FutureValueScheduleModel> GetRealEstateAssetSchedule(Account account, GeneralAssetCase generalAssetCase, int years)
+        {
+            int periods = years * 12;
+            decimal monthlyInterestRate = generalAssetCase.GrowthRate / 12 / 100;
+            decimal futureValue = account.GetLastBalance();            
+            DateTime currentDate = account.GetLastBalanceDate();
+            for (int i = 0; i < periods; i++)
+            {
+                var schedule = GetScheduleForPeriod(futureValue, generalAssetCase.Payment, monthlyInterestRate, i, currentDate);
+                futureValue = schedule.EstimatedValue;
+                yield return schedule;
+            }            
+        }
+        
+        private static FutureValueScheduleModel GetScheduleForPeriod(decimal futureValue, decimal monthlyInvestment, decimal monthlyInterestRate, int period, DateTime startDate)
+        {
+            var schedule = new FutureValueScheduleModel();
+            schedule.PeriodGrowthRate = monthlyInterestRate;
+            schedule.PeriodNumber = period;
+            schedule.EstimatedValue = (futureValue + monthlyInvestment) * (1 + monthlyInterestRate);
+            schedule.Payment = monthlyInvestment;
+            var tempDate = startDate.AddMonths(1);
+            schedule.EstimateDate = new DateTime(tempDate.Year, tempDate.Month, 1);
+            return schedule;
+        }
+
+
         public static IEnumerable<AmortizationScheduleModel> GetAmortizationSchedule(LoanDetail detail)
         {
             double lenderRate = (double)detail.InterestRate;

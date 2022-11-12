@@ -34,5 +34,13 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
             else 
                 return 0.0m;
         }
+
+        public DateTime GetLastBalanceDate()
+        {
+            if (Balances != null && Balances.Count > 0)
+                return Balances.OrderByDescending(x => x.Date).FirstOrDefault().Date;
+            else
+                return DateTime.MinValue;
+        }
     }
 }
