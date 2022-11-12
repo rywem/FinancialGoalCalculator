@@ -24,8 +24,27 @@ namespace FinancialGoalCalculator.Web.Services
             {
                 ScenarioId = scenarioId,
                 AccountId = accountId
-            };
-            
+            };            
+        }
+
+        public async Task<RealEstateAssetCase> CreateAsync(RealEstateAssetCase realEstateAssetCase)
+        {
+            _context.RealEstateAssetCase.Add(realEstateAssetCase);
+            await _context.SaveChangesAsync();
+            return realEstateAssetCase;
+        }
+
+        public async Task<RealEstateAssetCase> UpdateAsync(RealEstateAssetCase realEstateAssetCase)
+        {
+            var objFromDb = await _context.RealEstateAssetCase.FirstOrDefaultAsync(x => x.Id == realEstateAssetCase.Id);
+
+            if(objFromDb != null)
+            {
+                objFromDb.GrowthRate = realEstateAssetCase.GrowthRate;
+                _context.RealEstateAssetCase.Update(objFromDb);
+                await _context.SaveChangesAsync();
+            }
+            return objFromDb;
         }
     }
 }
