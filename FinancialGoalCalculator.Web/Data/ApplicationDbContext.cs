@@ -1,5 +1,6 @@
 ﻿using FinancialGoalCalculator.Web.Entities;
 using FinancialGoalCalculator.Web.Entities.Accounts;
+using FinancialGoalCalculator.Web.Entities.Cases;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace FinancialGoalCalculator.Web.Data
         public DbSet<Job> Job { get; set; }
         public DbSet<JobSalary> JobSalary { get; set; }
         public DbSet<Scenario> Scenario { get; set; }
+        public DbSet<RealEstateAssetCase> RealEstateAssetCase { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 

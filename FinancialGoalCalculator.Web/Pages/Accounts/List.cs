@@ -84,7 +84,7 @@ namespace FinancialGoalCalculator.Web.Pages.Accounts
             {
                 if(accountRow.Account != null)
                 {
-                    if(accountRow.Account.AccountType == AccountType.Debt)
+                    if(accountRow.Account.AccountType == AccountType.Debt || accountRow.Account.AccountType == AccountType.Mortgage)
                     {
                         return $"/accounts/loans/details/{accountRow.Account.Id}";
                     }

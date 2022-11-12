@@ -20,7 +20,7 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<BalanceService>();
 builder.Services.AddScoped<ScenarioService>();
 builder.Services.AddScoped<LoanDetailService>();
-
+builder.Services.AddScoped<RealEstateAssetCaseService>();
 
 var app = builder.Build();
 
