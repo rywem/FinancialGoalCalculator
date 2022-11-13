@@ -25,5 +25,10 @@ namespace FinancialGoalCalculator.Web.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task GenerateScenario(int scenarioId)
+        {
+
+        }
     }
 }

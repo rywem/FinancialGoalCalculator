@@ -1,3 +1,16 @@
 ﻿@page "/scenarios/run/{ScenarioId:int}"
-<h3>Run</h3>
-Run scenario here, Id: @ScenarioId
+<div class="row g-3 align-items-center">    
+    <div class="col-auto">
+        <label for="yearsInput" class="col-form-label">Years</label>
+    </div>
+    <div class="col-auto">
+        <input class="form-control" id="yearsInput" @bind="@_years" type="number" />        
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-secondary" onclick="RunScenario">Run Scenarios</button>
+    </div>    
+</div>
+@if(showScenario == true)
+{
+
+}

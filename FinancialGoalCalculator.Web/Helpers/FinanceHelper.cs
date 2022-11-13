@@ -19,7 +19,33 @@ namespace FinancialGoalCalculator.Web.Helpers
                 yield return schedule;
             }            
         }
-        
+
+        public static decimal CalculateFutureValue(decimal pv, decimal interestRate, int nPeriods, int tYears)
+        {
+            double pvDouble = (double)pv;
+            double interestRateDouble = (double)interestRate;
+            double nPeriodsDouble = (double)nPeriods;
+            double tYearsDouble = (double)tYears;
+
+            double futureValueDouble = pvDouble * Math.Pow((1 + (interestRateDouble / nPeriodsDouble / 100)), (nPeriodsDouble * tYearsDouble));
+            return (decimal)futureValueDouble;
+        }
+        /// <summary>
+        /// Calculates the future value of a specific 
+        /// </summary>
+        /// <param name="pv">Present Value</param>
+        /// <param name="monthlyInterestRate">Divide by Period and 100 first</param>
+        /// <param name="specificPeriod">The specific period</param>
+        /// <returns></returns>
+        public static decimal CalculateFutureValueSpecificPeriod(decimal pv, decimal monthlyInterestRate, int specificPeriod)
+        {
+            double pvDouble = (double)pv;
+            double interestRateDouble = (double)monthlyInterestRate;
+            double nPeriodDouble = (double)specificPeriod;
+            double futureValueDouble = pvDouble * Math.Pow((1 + interestRateDouble), nPeriodDouble);
+            return (decimal)futureValueDouble;
+        }
+
         private static FutureValueScheduleModel GetScheduleForPeriod(decimal futureValue, decimal monthlyInvestment, decimal monthlyInterestRate, int period, DateTime startDate)
         {
             var schedule = new FutureValueScheduleModel();
