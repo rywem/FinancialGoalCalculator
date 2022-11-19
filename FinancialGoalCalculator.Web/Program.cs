@@ -21,6 +21,7 @@ builder.Services.AddScoped<BalanceService>();
 builder.Services.AddScoped<ScenarioService>();
 builder.Services.AddScoped<LoanDetailService>();
 builder.Services.AddScoped<GeneralAssetCaseService>();
+builder.Services.AddScoped<LoanRepaymentCaseService>();
 
 var app = builder.Build();
 

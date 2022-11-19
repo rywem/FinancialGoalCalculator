@@ -3,6 +3,7 @@ using System;
 using FinancialGoalCalculator.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialGoalCalculator.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221119125039_AddLoanRepaymentCase")]
+    partial class AddLoanRepaymentCase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -116,9 +118,6 @@ namespace FinancialGoalCalculator.Web.Migrations
                     b.Property<decimal>("Payment")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PaymentInterval")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ScenarioId")
                         .HasColumnType("INTEGER");
 
@@ -128,7 +127,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasIndex("ScenarioId");
 
-                    b.ToTable("GeneralAssetCase");
+                    b.ToTable("RealEstateAssetCase");
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.LoanRepaymentCase", b =>

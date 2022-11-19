@@ -1,4 +1,5 @@
 ﻿@page "/scenarios/add/retirement/{ScenarioId:int}/{AccountId:int}"
+@using FinancialGoalCalculator.Web.Enum;
 <div class="row">
     <EditForm Model="_generalAssetCase" OnValidSubmit="HandleSubmit">
         <div class="shadow p-4">
@@ -11,9 +12,25 @@
                     <label for="Owner">Growth Rate (%)</label>
                     <InputNumber class="form-control" @bind-Value="_generalAssetCase.GrowthRate" />
                 </div>
-            </div>
-            <hr class="mb-4" />
-            <input type="submit" class="btn btn-success" value="Save" />
+                <div class="col-md-2 mb-3">
+                    <label class="">Payment Interval</label>
+                    <InputSelect class="form-control" 
+                        ValueExpression="@(() => _generalAssetCase.PaymentInterval)"
+                        Value="@_generalAssetCase.PaymentInterval"
+                        ValueChanged="@((PaymentInterval value) => OnPaymentIntervalValueChanged(value))">
+                        <option value="@(PaymentInterval.Yearly)" selected="selected">Yearly (1)</option>
+                        <option value="@(PaymentInterval.BiAnnually)">Bi-Annually (2)</option>
+                        <option value="@(PaymentInterval.Quarterly)">Quarterly (4)</option>
+                        <option value="@(PaymentInterval.Monthly)">Monthly (12)</option>
+                        <option value="@(PaymentInterval.BiMonthly)">Bi-Monthly (24)</option>
+                        <option value="@(PaymentInterval.BiWeekly)">Bi-Weekly (26)</option>
+                        <option value="@(PaymentInterval.Weekly)">Weekly (52)</option>
+                    </InputSelect>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <input type="submit" class="btn btn-success mt-24" value="Save" />
+                </div>
+            </div>            
         </div>
     </EditForm>
 </div>

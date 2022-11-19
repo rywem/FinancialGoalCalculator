@@ -10,5 +10,6 @@ namespace FinancialGoalCalculator.Web.Entities
         public string Name { get; set; }
         public DateTime Created { get; set; }        
         public ICollection<GeneralAssetCase> RealEstateAssetCases { get; set; }
+        public ICollection<LoanRepaymentCase> LoanRepaymentCases { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FinancialGoalCalculator.Web.Data;
+using FinancialGoalCalculator.Web.Models.Scenarios;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialGoalCalculator.Web.Services
@@ -26,9 +27,16 @@ namespace FinancialGoalCalculator.Web.Services
             }
         }
 
-        public async Task GenerateScenario(int scenarioId)
+        public async Task<List<YearAggregateModel>> GenerateScenario(int scenarioId)
         {
+            var scenario = await _context.Scenario
+                .Include("GeneralAssetCase")
+                .Include("GeneralAssetCase.Account")
+                .Include("LoanDetail")
+                .Include("LoanDetail.Account")
+                .FirstOrDefaultAsync(x => x.Id == scenarioId);
 
+            return null;
         }
     }
 }

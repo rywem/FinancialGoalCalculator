@@ -4,15 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinancialGoalCalculator.Web.Entities.Cases
 {
-    public class GeneralAssetCase
+    public class LoanRepaymentCase
     {
         [Key]
         public int Id { get; set; }
+        public decimal ExtraPayment { get; set; }
+        public PaymentInterval PaymentInterval { get; set; }
         public int ScenarioId { get; set; }
         public int AccountId { get; set; }
-        public decimal GrowthRate { get; set; }
-        public decimal Payment { get; set; } = 0;
-        public PaymentInterval PaymentInterval { get; set; }
         [ForeignKey("ScenarioId")]
         public Scenario Scenario { get; set; }
         [ForeignKey("AccountId")]

@@ -1,4 +1,5 @@
-﻿using FinancialGoalCalculator.Web.Entities.Interfaces;
+﻿using FinancialGoalCalculator.Web.Entities.Cases;
+using FinancialGoalCalculator.Web.Entities.Interfaces;
 using FinancialGoalCalculator.Web.Enum;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,6 +23,8 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
         [MaxLength(50)]
         [StringLength(50)]
         public string Owner { get; set; }
+        public ICollection<GeneralAssetCase> RealEstateAssetCases { get; set; }
+        public ICollection<LoanRepaymentCase> LoanRepaymentCases { get; set; }
         public Account()
         {
             OpenedDate = DateTime.Now;

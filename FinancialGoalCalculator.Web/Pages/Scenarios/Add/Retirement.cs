@@ -1,4 +1,5 @@
 ﻿using FinancialGoalCalculator.Web.Entities.Cases;
+using FinancialGoalCalculator.Web.Enum;
 
 namespace FinancialGoalCalculator.Web.Pages.Scenarios.Add
 {
@@ -22,6 +23,10 @@ namespace FinancialGoalCalculator.Web.Pages.Scenarios.Add
             else
                 await GeneralAssetCaseService.UpdateAsync(_generalAssetCase);
             NavigationManager.NavigateTo($"scenarios/build/{_generalAssetCase.ScenarioId}");
+        }
+        private void OnPaymentIntervalValueChanged(PaymentInterval value)
+        {
+            _generalAssetCase.PaymentInterval = value;
         }
     }
 }

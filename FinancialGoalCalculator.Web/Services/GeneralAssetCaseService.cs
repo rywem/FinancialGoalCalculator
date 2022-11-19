@@ -15,7 +15,7 @@ namespace FinancialGoalCalculator.Web.Services
 
         public async Task<GeneralAssetCase> GetFirstOrNewAsync(int scenarioId, int accountId)
         {
-            var realEstateCase = await _context.RealEstateAssetCase.FirstOrDefaultAsync(x => x.AccountId == accountId && x.ScenarioId == scenarioId);
+            var realEstateCase = await _context.GeneralAssetCase.FirstOrDefaultAsync(x => x.AccountId == accountId && x.ScenarioId == scenarioId);
 
             if (realEstateCase != null)
                 return realEstateCase;
@@ -29,19 +29,19 @@ namespace FinancialGoalCalculator.Web.Services
 
         public async Task<GeneralAssetCase> CreateAsync(GeneralAssetCase realEstateAssetCase)
         {
-            _context.RealEstateAssetCase.Add(realEstateAssetCase);
+            _context.GeneralAssetCase.Add(realEstateAssetCase);
             await _context.SaveChangesAsync();
             return realEstateAssetCase;
         }
 
         public async Task<GeneralAssetCase> UpdateAsync(GeneralAssetCase realEstateAssetCase)
         {
-            var objFromDb = await _context.RealEstateAssetCase.FirstOrDefaultAsync(x => x.Id == realEstateAssetCase.Id);
+            var objFromDb = await _context.GeneralAssetCase.FirstOrDefaultAsync(x => x.Id == realEstateAssetCase.Id);
 
             if(objFromDb != null)
             {
                 objFromDb.GrowthRate = realEstateAssetCase.GrowthRate;
-                _context.RealEstateAssetCase.Update(objFromDb);
+                _context.GeneralAssetCase.Update(objFromDb);
                 await _context.SaveChangesAsync();
             }
             return objFromDb;

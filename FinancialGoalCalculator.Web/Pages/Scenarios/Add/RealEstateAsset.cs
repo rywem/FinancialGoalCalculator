@@ -18,6 +18,7 @@ namespace FinancialGoalCalculator.Web.Pages.Scenarios.Add
         private async Task HandleSubmit()
         {
             _generalAssetCase.Payment = 0;
+            _generalAssetCase.PaymentInterval = Enum.PaymentInterval.Monthly;
             if (_generalAssetCase.Id == 0)            
                 await GeneralAssetCaseService.CreateAsync(_generalAssetCase);            
             else 
