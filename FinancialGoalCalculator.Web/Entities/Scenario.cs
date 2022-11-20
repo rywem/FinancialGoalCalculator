@@ -9,7 +9,7 @@ namespace FinancialGoalCalculator.Web.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Created { get; set; }        
-        public ICollection<GeneralAssetCase> RealEstateAssetCases { get; set; }
+        public ICollection<GeneralAssetCase> GeneralAssetCases { get; set; }
         public ICollection<LoanRepaymentCase> LoanRepaymentCases { get; set; }
     }
 }

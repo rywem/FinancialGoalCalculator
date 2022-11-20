@@ -47,7 +47,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Account");
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Accounts.LoanDetail", b =>
@@ -76,7 +76,7 @@ namespace FinancialGoalCalculator.Web.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
-                    b.ToTable("LoanDetail");
+                    b.ToTable("LoanDetail", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Balance", b =>
@@ -98,7 +98,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Balance");
+                    b.ToTable("Balance", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.GeneralAssetCase", b =>
@@ -128,7 +128,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasIndex("ScenarioId");
 
-                    b.ToTable("GeneralAssetCase");
+                    b.ToTable("GeneralAssetCase", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Cases.LoanRepaymentCase", b =>
@@ -155,7 +155,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasIndex("ScenarioId");
 
-                    b.ToTable("LoanRepaymentCase");
+                    b.ToTable("LoanRepaymentCase", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Job", b =>
@@ -172,7 +172,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Job");
+                    b.ToTable("Job", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.JobSalary", b =>
@@ -197,7 +197,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("JobSalary");
+                    b.ToTable("JobSalary", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Scenario", b =>
@@ -214,7 +214,7 @@ namespace FinancialGoalCalculator.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Scenario");
+                    b.ToTable("Scenario", (string)null);
                 });
 
             modelBuilder.Entity("FinancialGoalCalculator.Web.Entities.Accounts.LoanDetail", b =>

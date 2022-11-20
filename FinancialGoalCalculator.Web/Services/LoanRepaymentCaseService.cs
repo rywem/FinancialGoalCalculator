@@ -1,5 +1,6 @@
 ﻿using FinancialGoalCalculator.Web.Data;
 using FinancialGoalCalculator.Web.Entities.Cases;
+using FinancialGoalCalculator.Web.Models.Scenarios;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialGoalCalculator.Web.Services
@@ -46,6 +47,9 @@ namespace FinancialGoalCalculator.Web.Services
                 await _context.SaveChangesAsync();
             }
             return objFromDb;
+        }
+        public IEnumerable<LineItemModel> GetLineItems(LoanRepaymentCase loanRepaymentCase, int years)
+        {
         }
     }
 }

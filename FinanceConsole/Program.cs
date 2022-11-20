@@ -8,5 +8,8 @@ Console.WriteLine("Hello, World!");
 //FinanceHelper.CompoundCalculator(2.875, 360, 356250, new DateTime(2021, 10, 1));
 //FinanceHelper.CompoundCalculator(7, 36, 1000);
 
-TimeValueCalculations calcs = new TimeValueCalculations();
-calcs.Run();
+//TimeValueCalculations calcs = new TimeValueCalculations();
+//calcs.Run();
+decimal interest = .05m;
+var amount = FinanceHelper.CalculateFutureValueSpecificPeriod(1000, interest, 1);
+Console.WriteLine(amount);

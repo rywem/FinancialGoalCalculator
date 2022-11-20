@@ -1,6 +1,7 @@
 ﻿using FinancialGoalCalculator.Web.Data;
 using FinancialGoalCalculator.Web.Entities;
 using FinancialGoalCalculator.Web.Entities.Accounts;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinancialGoalCalculator.Web.Services
 {
@@ -20,6 +21,13 @@ namespace FinancialGoalCalculator.Web.Services
                 _context.Balance.Add(newBalance);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<Balance> GetLastBalanceByAccount(Account account)
+        {
+            return await _context.Balance
+                .OrderByDescending(x => x.Date)
+                .FirstOrDefaultAsync(x => x.AccountId == account.Id);
         }
     }
 }
