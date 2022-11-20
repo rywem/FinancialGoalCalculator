@@ -7,7 +7,7 @@
         <input class="form-control" id="yearsInput" @bind="@_years" type="number" />        
     </div>
     <div class="col-auto">
-        <button class="btn btn-secondary" onclick="RunScenario">Run Scenarios</button>
+        <button class="btn btn-secondary" onclick="@(() => RunScenario())">Run Scenarios</button>
     </div>    
 </div>
 @if(showScenario == true)

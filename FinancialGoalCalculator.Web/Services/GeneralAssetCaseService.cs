@@ -65,6 +65,7 @@ namespace FinancialGoalCalculator.Web.Services
             for (int i = 0; i < nper; i++)
             {
                 LineItemModel lineItem = new LineItemModel();
+                lineItem.TimeValuePeriod = new Models.TimeValuePeriodModel();
                 lineItem.Name = generalAssetCase.Account.Name;
                 lineItem.AccountType = generalAssetCase.Account.AccountType;
                 lineItem.TimeValuePeriod.PeriodNumber = i;
@@ -73,7 +74,10 @@ namespace FinancialGoalCalculator.Web.Services
                 lineItem.TimeValuePeriod.FutureValue = FinanceHelper.CalculateFutureValueSpecificPeriod(futureValue + generalAssetCase.Payment, interestPerPeriod, 1);
                 if(generalAssetCase.PaymentInterval == Enum.PaymentInterval.Monthly)
                 {
-                    lineItem.TimeValuePeriod.Date = dateTracking.AddMonths(1);
+                    if(i == 0)
+                        dateTracking = dateTracking.AddMonths(0);
+                    else
+                        dateTracking = dateTracking.AddMonths(1);
                 }
                 else if (generalAssetCase.PaymentInterval == Enum.PaymentInterval.Yearly)
                 {
@@ -107,6 +111,7 @@ namespace FinancialGoalCalculator.Web.Services
                     dateTracking = dateTracking.AddDays(7);
                 }
                 lineItem.TimeValuePeriod.Date = dateTracking;
+                lineItem.Date = dateTracking;
                 lineItem.TimeValuePeriod.PeriodInterestRate = interestPerPeriod;
                 futureValue = lineItem.TimeValuePeriod.FutureValue;
                 yield return lineItem;

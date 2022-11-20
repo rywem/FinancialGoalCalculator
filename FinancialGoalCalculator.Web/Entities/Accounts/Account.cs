@@ -23,7 +23,7 @@ namespace FinancialGoalCalculator.Web.Entities.Accounts
         [MaxLength(50)]
         [StringLength(50)]
         public string Owner { get; set; }
-        public ICollection<GeneralAssetCase> RealEstateAssetCases { get; set; }
+        public ICollection<GeneralAssetCase> GeneralAssetCases { get; set; }
         public ICollection<LoanRepaymentCase> LoanRepaymentCases { get; set; }
         public Account()
         {

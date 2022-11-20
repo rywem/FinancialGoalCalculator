@@ -31,6 +31,8 @@ namespace FinancialGoalCalculator.Web.Services
             }
         }
 
+
+        //public async Task<List<YearAggregateModel>> GenerateScenario(int scenarioId, int years)
         public async Task<List<YearAggregateModel>> GenerateScenario(int scenarioId, int years)
         {
             var scenario = await _context.Scenario
@@ -47,8 +49,64 @@ namespace FinancialGoalCalculator.Web.Services
                 lineItems.AddRange(_generalAssetCaseService.GetLineItems(item, years));
             }
 
+            foreach (var item in scenario.LoanRepaymentCases)
+            {
+                lineItems.AddRange(_loanRepaymentCaseService.GetLineItems(item));
+            }
 
-            return null;
+            List<YearAggregateModel> yearAggregates= new List<YearAggregateModel>();
+            DateTime nextMonth = DateTime.Now.AddMonths(1);            
+            DateTime dateTracking = new DateTime(nextMonth.Year, nextMonth.Month, 1);
+            int nbrMonths = years * 12;
+            for (int i = 0; i < nbrMonths; i++)
+            {
+                dateTracking = dateTracking.AddMonths(i);
+
+                if (!yearAggregates.Any(x => x.Year == dateTracking.Year))
+                {
+                    YearAggregateModel yearAggregate = new YearAggregateModel();
+                    yearAggregate.Year = dateTracking.Year;
+                    yearAggregates.Add(yearAggregate);
+                }
+
+                var currentYearAggregate = yearAggregates.First(x => x.Year == dateTracking.Year);
+
+                if(!currentYearAggregate.MonthAggregateModels.Any(x => x.Month == dateTracking.Month))
+                {
+                    MonthAggregateModel monthAggregate = new MonthAggregateModel();
+                    monthAggregate.Month = dateTracking.Month;
+                    currentYearAggregate.MonthAggregateModels.Add(monthAggregate);
+                }
+
+                var currentMonthAggregate = currentYearAggregate.MonthAggregateModels.First(x => x.Month == dateTracking.Month);
+
+                var lineItemsForMonth = lineItems.Where(x => x.Date.Year == dateTracking.Year && x.Date.Month == dateTracking.Month).ToList();
+
+                foreach (var item in lineItemsForMonth)
+                {
+                    if (!currentMonthAggregate.LineItems.ContainsKey(item.Name))
+                    {
+                        currentMonthAggregate.LineItems.TryAdd(item.Name, new List<LineItemModel>());
+                    }
+
+                    List<LineItemModel> list = null;
+                    if (currentMonthAggregate.LineItems.TryGetValue(item.Name, out list))
+                    {
+                        list.Add(item);
+                    }
+                }
+            }
+            return yearAggregates;
+            //for (int i = years; i < years; i++)
+            //{
+            //    YearAggregateModel yearAggregate = new YearAggregateModel();
+            //    DateTime dateTracking = startDate.AddYears(i);
+            //    yearAggregate.Year = dateTracking.Year;
+            //    for (int j = 1; j <= 12; j++)
+            //    {
+            //        MonthAggregateModel monthAggregate = new MonthAggregateModel();
+            //    }
+            //}            
         }
     }
 }
