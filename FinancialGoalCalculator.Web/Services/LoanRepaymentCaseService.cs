@@ -98,7 +98,7 @@ namespace FinancialGoalCalculator.Web.Services
             var totalInterest = 0.00;
             for (int i = 0; i < loanPeriodInMonths; i++)
             {
-                dateTracking = dateTracking.AddMonths(i);
+                dateTracking = dateTracking.AddMonths(1);
                 var monthlyInterest = Math.Round(FinanceHelper.InterestTotalForMonth(currentBalance, lenderRate), 2);
                 var monthlyPrinciple = (Math.Round((monthlyPayment - monthlyInterest), 2) + paymentExtraMonthly);
 

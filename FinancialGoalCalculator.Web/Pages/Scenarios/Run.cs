@@ -13,6 +13,7 @@ namespace FinancialGoalCalculator.Web.Pages.Scenarios
         private async Task RunScenario()
         {
             _yearAggregateList = await ScenarioService.GenerateScenario(ScenarioId, _years);
+            showScenario= true;
         }
     }
 }

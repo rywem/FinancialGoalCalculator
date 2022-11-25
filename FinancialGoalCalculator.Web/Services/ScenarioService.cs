@@ -60,8 +60,11 @@ namespace FinancialGoalCalculator.Web.Services
             int nbrMonths = years * 12;
             for (int i = 0; i < nbrMonths; i++)
             {
-                dateTracking = dateTracking.AddMonths(i);
-
+                dateTracking = dateTracking.AddMonths(1);
+                if(dateTracking.Year == 2032)
+                {
+                    Console.WriteLine("Hello world");
+                }
                 if (!yearAggregates.Any(x => x.Year == dateTracking.Year))
                 {
                     YearAggregateModel yearAggregate = new YearAggregateModel();
@@ -84,29 +87,26 @@ namespace FinancialGoalCalculator.Web.Services
 
                 foreach (var item in lineItemsForMonth)
                 {
-                    if (!currentMonthAggregate.LineItems.ContainsKey(item.Name))
+                    if (!currentMonthAggregate.LineItemsRow.ContainsKey(item.Name))
                     {
-                        currentMonthAggregate.LineItems.TryAdd(item.Name, new List<LineItemModel>());
+                        currentMonthAggregate.LineItemsRow.TryAdd(item.Name, new LineItemRowModel(item.AccountType, new List<LineItemModel>()));
                     }
-
-                    List<LineItemModel> list = null;
-                    if (currentMonthAggregate.LineItems.TryGetValue(item.Name, out list))
+                    
+                    LineItemRowModel row = null;
+                    if (currentMonthAggregate.LineItemsRow.TryGetValue(item.Name, out row))
                     {
-                        list.Add(item);
+                        row.LineItems.Add(item);
                     }
                 }
             }
+
+            foreach (var item in yearAggregates)
+            {
+                item.Calculate();
+            }
+
             return yearAggregates;
-            //for (int i = years; i < years; i++)
-            //{
-            //    YearAggregateModel yearAggregate = new YearAggregateModel();
-            //    DateTime dateTracking = startDate.AddYears(i);
-            //    yearAggregate.Year = dateTracking.Year;
-            //    for (int j = 1; j <= 12; j++)
-            //    {
-            //        MonthAggregateModel monthAggregate = new MonthAggregateModel();
-            //    }
-            //}            
+                    
         }
     }
 }
