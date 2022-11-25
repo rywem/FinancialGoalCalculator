@@ -91,70 +91,40 @@
                                             <tr>
                                                 <td colspan="7">
                                                     <table class="table">
-                                                        <thead>                                                            
+                                                        <thead>
                                                             <tr>
-                                                                <th scope="col">Expand</th>
                                                                 <th scope="col">Name</th>
+                                                                <th scope="col">Type</th>
                                                                 <th scope="col">Account Type</th>
+                                                                <th scope="col">Period #</th>
+                                                                <th scope="col">Present Value</th>
+                                                                <th scope="col">Payment</th>
+                                                                <th scope="col">Period Interest Rate</th>
+                                                                <th scope="col">Future Value</th>
+                                                                <th scope="col">Date</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach (var lineItemRow in month.LineItemsRow.Where(x => x.Value.AccountType == Web.Enum.AccountType.Asset
                                                            || x.Value.AccountType == Web.Enum.AccountType.RetirementAccount
                                                            || x.Value.AccountType == Web.Enum.AccountType.RealEstateAsset))
-                                                            {
-                                                                <tr>
-                                                                    <td>
-                                                                        <button @onclick="@(() => lineItemRow.Value.Expand = !lineItemRow.Value.Expand)">
-                                                                            @if (lineItemRow.Value.Expand == false)
-                                                                            {
-                                                                                <i class="fa-solid fa-plus"></i>
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <i class="fa-solid fa-minus"></i>
-                                                                            }
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>@lineItemRow.Key</td>
-                                                                    <td>@lineItemRow.Value.AccountType</td>
-                                                                </tr>
-                                                                @if (lineItemRow.Value.Expand == true)
+                                                            {                                                                    
+                                                                @foreach (var lineItem in lineItemRow.Value.LineItems)
                                                                 {
-                                                                    <tr>
-                                                                        <td colspan="3">
-                                                                            <table class="table">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th scope="col">Period #</th>
-                                                                                        <th scope="col">Present Value</th>
-                                                                                        <th scope="col">Payment</th>
-                                                                                        <th scope="col">Period Interest Rate</th>
-                                                                                        <th scope="col">Future Value</th>
-                                                                                        <th scope="col">Date</th>
-                                                                                        <th scope="col">Type</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    @foreach (var lineItem in lineItemRow.Value.LineItems)
-                                                                                    {
-                                                                                        @if (lineItem.TimeValuePeriod != null)
-                                                                                        {
-                                                                                            <tr>
-                                                                                                <td scope="row">@lineItem.TimeValuePeriod.PeriodNumber</td>
-                                                                                                <td>@lineItem.TimeValuePeriod.PresentValue.ToString("c")</td>
-                                                                                                <td>@lineItem.TimeValuePeriod.Payment.ToString("c")</td>
-                                                                                                <td>@lineItem.TimeValuePeriod.PeriodInterestRate.ToString("P")</td>
-                                                                                                <td>@lineItem.TimeValuePeriod.FutureValue.ToString("c")</td>
-                                                                                                <td>@lineItem.TimeValuePeriod.Date.ToString("MM/dd/yyyy")</td>
-                                                                                                <td>Asset</td>
-                                                                                            </tr>
-                                                                                        }
-                                                                                    }
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>
+                                                                    @if (lineItem.TimeValuePeriod != null)
+                                                                    {
+                                                                        <tr>
+                                                                            <td scope="row">@lineItemRow.Key</td>
+                                                                            <td>Asset</td>
+                                                                            <td scope="row">@lineItemRow.Value.AccountType</td>
+                                                                            <td scope="row">@lineItem.TimeValuePeriod.PeriodNumber</td>
+                                                                            <td>@lineItem.TimeValuePeriod.PresentValue.ToString("c")</td>
+                                                                            <td>@lineItem.TimeValuePeriod.Payment.ToString("c")</td>
+                                                                            <td>@lineItem.TimeValuePeriod.PeriodInterestRate.ToString("P")</td>
+                                                                            <td>@lineItem.TimeValuePeriod.FutureValue.ToString("c")</td>
+                                                                            <td>@lineItem.TimeValuePeriod.Date.ToString("MM/dd/yyyy")</td>
+                                                                        </tr>
+                                                                    }
                                                                 }
                                                             }
                                                         </tbody>
@@ -166,67 +136,36 @@
                                                     <table class="table">
                                                         <thead>                                                            
                                                             <tr>
-                                                                <th scope="col">Expand</th>
                                                                 <th scope="col">Name</th>
+                                                                <th scope="col">Type</th>
                                                                 <th scope="col">Account Type</th>
+                                                                <th scope="col">Period #</th>
+                                                                <th scope="col">Principal Pmt Amount</th>
+                                                                <th scope="col">Interest Pmt Amount</th>
+                                                                <th scope="col">Principal Remaining</th>
+                                                                <th scope="col">Date</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach (var lineItemRow in month.LineItemsRow.Where(x => x.Value.AccountType == Web.Enum.AccountType.Debt
                                                            || x.Value.AccountType == Web.Enum.AccountType.Mortgage))
-                                                            {
-                                                                <tr>
-
-                                                                    <td>
-                                                                        <button @onclick="@(() => lineItemRow.Value.Expand = !lineItemRow.Value.Expand)">
-                                                                            @if(lineItemRow.Value.Expand == false)
-                                                                            {
-                                                                                <i class="fa-solid fa-plus"></i>
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <i class="fa-solid fa-minus"></i>
-                                                                            }
-                                                                        </button>
-                                                                    </td>
-                                                                    <td>@lineItemRow.Key</td>
-                                                                    <td>@lineItemRow.Value.AccountType</td>
-                                                                </tr>
-                                                                @if(lineItemRow.Value.Expand == true)
+                                                            {                                                                                                                                
+                                                                @foreach (var lineItem in lineItemRow.Value.LineItems)
                                                                 {
-                                                                    <tr>
-                                                                        <td colspan="3">
-                                                                            <table class="table">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th scope="col">Period #</th>
-                                                                                        <th scope="col">Principal Pmt Amount</th>
-                                                                                        <th scope="col">Interest Pmt Amount</th>
-                                                                                        <th scope="col">Principal Remaining</th>
-                                                                                        <th scope="col">Date</th>
-                                                                                        <th scope="col">Type</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    @foreach (var lineItem in lineItemRow.Value.LineItems)
-                                                                                    {
-                                                                                        @if (lineItem.AmortizationScheduleModel != null)
-                                                                                        {
-                                                                                            <tr>
-                                                                                                <td>@lineItem.AmortizationScheduleModel.PeriodNumber</td>
-                                                                                                <td>@lineItem.AmortizationScheduleModel.PrincipalAmount.ToString("c")</td>
-                                                                                                <td>@lineItem.AmortizationScheduleModel.InterestAmount.ToString("c")</td>
-                                                                                                <td>@lineItem.AmortizationScheduleModel.PrincipalRemaining.ToString("c")</td>
-                                                                                                <td>@lineItem.AmortizationScheduleModel.DateOfPayment.ToString("MM/dd/yyyy")</td>
-                                                                                                <td>Debt</td>
-                                                                                            </tr>
-                                                                                        }
-                                                                                    }
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>
-                                                                }
+                                                                    @if (lineItem.AmortizationScheduleModel != null)
+                                                                    {
+                                                                        <tr>
+                                                                            <td scope="row">@lineItemRow.Key</td>
+                                                                            <td>Debt</td>
+                                                                            <td scope="row">@lineItemRow.Value.AccountType</td>                                                                            
+                                                                            <td>@lineItem.AmortizationScheduleModel.PeriodNumber</td>
+                                                                            <td>@lineItem.AmortizationScheduleModel.PrincipalAmount.ToString("c")</td>
+                                                                            <td>@lineItem.AmortizationScheduleModel.InterestAmount.ToString("c")</td>
+                                                                            <td>@lineItem.AmortizationScheduleModel.PrincipalRemaining.ToString("c")</td>
+                                                                            <td>@lineItem.AmortizationScheduleModel.DateOfPayment.ToString("MM/dd/yyyy")</td>
+                                                                        </tr>
+                                                                    }
+                                                                }                                                                
                                                             }
                                                         </tbody>
                                                     </table>
