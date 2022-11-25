@@ -56,11 +56,12 @@ namespace FinancialGoalCalculator.Web.Services
         public IEnumerable<LineItemModel> GetLineItems(LoanRepaymentCase loanRepaymentCase)
         {            
             var amortizationList = FinanceHelper.GetAmortizationSchedule(loanRepaymentCase.Account.LoanDetail).ToList();
-
+            
+            int elapsedPeriods = ((DateTime.Now.Year - loanRepaymentCase.Account.LoanDetail.FirstPaymentDate.Year) * 12) + DateTime.Now.Month - loanRepaymentCase.Account.LoanDetail.FirstPaymentDate.Month;
             double lenderRate = (double)loanRepaymentCase.Account.LoanDetail.InterestRate;
-            int loanPeriodInMonths = loanRepaymentCase.Account.LoanDetail.Periods;
+            int loanPeriodInMonthsRemaining = loanRepaymentCase.Account.LoanDetail.Periods - elapsedPeriods;
             double desiredLoanAmount = (double)loanRepaymentCase.Account.LoanDetail.OriginalBalance;
-            var monthlyPayment = Math.Round(FinanceHelper.MonthlyPayment(lenderRate, loanPeriodInMonths, desiredLoanAmount), 2);
+            var monthlyPayment = Math.Round(FinanceHelper.MonthlyPayment(lenderRate, loanRepaymentCase.Account.LoanDetail.Periods, desiredLoanAmount), 2);
 
             decimal paymentExtraMonthlyDecimal = 0.0m;
 
@@ -82,11 +83,11 @@ namespace FinancialGoalCalculator.Web.Services
             }
             else if (loanRepaymentCase.PaymentInterval == Enum.PaymentInterval.BiWeekly)
             {
-                paymentExtraMonthlyDecimal = Math.Round((loanRepaymentCase.ExtraPayment * 26) / 12, 2);
+                paymentExtraMonthlyDecimal = Math.Round((loanRepaymentCase.ExtraPayment * 26.0892m) / 12, 2);
             }
             else if (loanRepaymentCase.PaymentInterval == Enum.PaymentInterval.Weekly)
             {
-                paymentExtraMonthlyDecimal = Math.Round((loanRepaymentCase.ExtraPayment * 52) / 12, 2);
+                paymentExtraMonthlyDecimal = Math.Round((loanRepaymentCase.ExtraPayment * 52.1785m) / 12, 2);
             }
             double paymentExtraMonthly = (double)paymentExtraMonthlyDecimal;
             var balanceTask = _balanceService.GetLastBalanceByAccount(loanRepaymentCase.Account);
@@ -96,7 +97,7 @@ namespace FinancialGoalCalculator.Web.Services
             DateTime dateTracking = new DateTime(nextMonth.Year, nextMonth.Month, 1);
             double currentBalance = (double)balance.BalanceAmount;
             var totalInterest = 0.00;
-            for (int i = 0; i < loanPeriodInMonths; i++)
+            for (int i = 0; i < loanPeriodInMonthsRemaining; i++)
             {
                 dateTracking = dateTracking.AddMonths(1);
                 var monthlyInterest = Math.Round(FinanceHelper.InterestTotalForMonth(currentBalance, lenderRate), 2);
@@ -104,6 +105,8 @@ namespace FinancialGoalCalculator.Web.Services
 
                 currentBalance -= monthlyPrinciple;
                 totalInterest += monthlyInterest;
+                if(currentBalance < 0)
+                    currentBalance = 0;
 
                 yield return new LineItemModel()
                 {
@@ -113,13 +116,15 @@ namespace FinancialGoalCalculator.Web.Services
                         InterestAmount = (decimal)monthlyInterest,
                         PeriodNumber = i,
                         PrincipalAmount = (decimal)monthlyPrinciple,
-                        PrincipalRemaining = (decimal)currentBalance
+                        PrincipalRemaining = (decimal)currentBalance,
+                        ExtraPaymentMonthly = (decimal)paymentExtraMonthlyDecimal,
                     },
                     Date = dateTracking,
                     AccountType = loanRepaymentCase.Account.AccountType,
                     Name = loanRepaymentCase.Account.Name,
                 };
-                
+                if (currentBalance == 0)
+                    break;
             }
         }
     }

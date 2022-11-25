@@ -88,8 +88,8 @@
                                         </tr>
                                         @if(month.Expand == true)
                                         {
-                                            <tr>
-                                                <td colspan="7">
+                                            <tr style="margin-left: 4px;">
+                                                <td colspan="7" class="pad-cell">
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
@@ -132,19 +132,23 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="7">
+                                                <td colspan="7" class="pad-cell">
                                                     <table class="table">
-                                                        <thead>                                                            
-                                                            <tr>
-                                                                <th scope="col">Name</th>
-                                                                <th scope="col">Type</th>
-                                                                <th scope="col">Account Type</th>
-                                                                <th scope="col">Period #</th>
-                                                                <th scope="col">Principal Pmt Amount</th>
-                                                                <th scope="col">Interest Pmt Amount</th>
-                                                                <th scope="col">Principal Remaining</th>
-                                                                <th scope="col">Date</th>
-                                                            </tr>
+                                                        <thead>
+                                                            @if (month.LineItemsRow.Any(x => x.Value.AccountType == Web.Enum.AccountType.Debt || x.Value.AccountType == Web.Enum.AccountType.Mortgage))
+                                                            {
+                                                                <tr>
+                                                                    <th scope="col">Name</th>
+                                                                    <th scope="col">Type</th>
+                                                                    <th scope="col">Account Type</th>
+                                                                    <th scope="col">Period #</th>
+                                                                    <th scope="col">Principal Pmt Amount</th>
+                                                                    <th scope="col">Interest Pmt Amount</th>
+                                                                    <th scope="col">Extra Pmt Monthly</th>
+                                                                    <th scope="col">Principal Remaining</th>
+                                                                    <th scope="col">Date</th>
+                                                                </tr>
+                                                            }
                                                         </thead>
                                                         <tbody>
                                                             @foreach (var lineItemRow in month.LineItemsRow.Where(x => x.Value.AccountType == Web.Enum.AccountType.Debt
@@ -161,6 +165,7 @@
                                                                             <td>@lineItem.AmortizationScheduleModel.PeriodNumber</td>
                                                                             <td>@lineItem.AmortizationScheduleModel.PrincipalAmount.ToString("c")</td>
                                                                             <td>@lineItem.AmortizationScheduleModel.InterestAmount.ToString("c")</td>
+                                                                            <td>@lineItem.AmortizationScheduleModel.ExtraPaymentMonthly.ToString("c")</td>
                                                                             <td>@lineItem.AmortizationScheduleModel.PrincipalRemaining.ToString("c")</td>
                                                                             <td>@lineItem.AmortizationScheduleModel.DateOfPayment.ToString("MM/dd/yyyy")</td>
                                                                         </tr>
@@ -184,3 +189,8 @@
         </tbody>
     </table>
 }
+<style>
+    .pad-cell {
+        padding-left: 30px !important;
+    }
+</style>
