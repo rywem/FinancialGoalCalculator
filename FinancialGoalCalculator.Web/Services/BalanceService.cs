@@ -29,5 +29,23 @@ namespace FinancialGoalCalculator.Web.Services
                 .OrderByDescending(x => x.Date)
                 .FirstOrDefaultAsync(x => x.AccountId == account.Id);
         }
+
+        public async Task<List<Balance>> GetBalancesByAccountId(int id)
+        {
+            return await _context.Balance
+                .Where(x => x.AccountId == id)
+                .OrderByDescending(x => x.Date)
+                .ToListAsync();
+        }
+
+        internal async Task DeleteBalanceAsync(int balanceId)
+        {
+            var objFromDb = await _context.Balance.FirstOrDefaultAsync(x => x.Id == balanceId);
+            if (objFromDb != null)
+            {
+                _context.Remove(objFromDb);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

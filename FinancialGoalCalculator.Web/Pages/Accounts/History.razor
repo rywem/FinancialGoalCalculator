@@ -1,0 +1,26 @@
+﻿@page "/accounts/history/{AccountId:int}"
+
+@if(_balances != null && _balances.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Balance Amount</th>
+                <th scope="col">Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var balance in _balances)
+            {
+                <tr>
+                    <td scope="row">@balance.Id</td>
+                    <td>@balance.BalanceAmount.ToString("c")</td>
+                    <td>@balance.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
+                    <td><button type="button" @onclick="@(() => DeleteBalanceHandler(balance.Id))" class="btn btn-danger">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

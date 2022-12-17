@@ -37,6 +37,7 @@ else
                         <th scope="col">Quick Balance</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +67,7 @@ else
                             </td>
                           <td><NavLink href="@($"accounts/upsert/{accountRow.Account.Id}")"><span>Edit</span></NavLink></td>
                           <td><NavLink href="@(GetDetailsLink(accountRow))"><span>Details</span></NavLink></td>
+                          <td><NavLink href="@($"accounts/history/{accountRow.Account.Id}")"><span>History</span></NavLink></td>
                         </tr>
                     }
                     <tr>
@@ -95,7 +97,7 @@ else
                         <th scope="col">Last Balance</th>
                         <th scope="col">Quick Balance</th>
                         <th scope="col"></th>
-                       @* <th scope="col"></th>*@
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -124,6 +126,7 @@ else
                                 }
                             </td>
                           <td><NavLink href="@($"accounts/upsert/{accountRow.Account.Id}")"><span>Edit</span></NavLink></td>
+                          <td><NavLink href="@($"accounts/history/{accountRow.Account.Id}")"><span>History</span></NavLink></td>
                           @*<td><NavLink href="@($"account/details/{accountRow.Account.Id}")"><span>Details</span></NavLink></td>*@
                         </tr>
                     }
@@ -153,6 +156,7 @@ else
                         <th scope="col">Closed</th>
                         <th scope="col">Last Balance</th>
                         <th scope="col">Quick Balance</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -186,6 +190,7 @@ else
                             </td>
                           <td><NavLink href="@($"accounts/upsert/{accountRow.Account.Id}")"><span>Edit</span></NavLink></td>   
                           <td><NavLink href="@(GetDetailsLink(accountRow))"><span>Details</span></NavLink></td>
+                          <td><NavLink href="@($"accounts/history/{accountRow.Account.Id}")"><span>History</span></NavLink></td>
                         </tr>
                     }
                     <tr>
