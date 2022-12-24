@@ -1,7 +1,53 @@
 ﻿@page "/jobs/upsert"
 @page "/jobs/upsert/{Id:int}"
-<h3>Upsert</h3>
 
-@code {
+<h3>@(isUpdate == true ? "Edit Job" : "Add Job")</h3>
 
-}
+<ErrorDisplay ErrorMessages="_errors" />
+<div class="row">
+    <EditForm Model="_job" OnValidSubmit="HandleSubmit">
+        <div class="shadow p-4">
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label for="Title">Title</label>
+                    <InputText class="form-control" @bind-Value="_job.Title" />
+                    <ValidationMessage For="() => _job.Title" />
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="Company">Company</label>
+                    <InputText class="form-control" @bind-Value="_job.Company" />
+                    <ValidationMessage For="() => _job.Company" />
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="StartDate">Start Date</label>
+                    <InputDate class="form-control" @bind-Value="_job.StartDate" />
+                    <ValidationMessage For="() => _job.StartDate" />
+                </div>
+                <div class="col-md-2 mb-3 top-margin">
+                    <InputCheckbox @bind-Value="_job.CurrentlyEmployed" />
+                    <label for="CurrentlyEmployed">Currently Employed</label>
+                </div>
+                @if(_job.CurrentlyEmployed == false)
+                {
+                    <div class="col-md-2 mb-3">
+                        <label for="EndDate">End Date</label>
+                        <InputDate class="form-control" @bind-Value="_job.EndDate" />
+                        <ValidationMessage For="() => _job.EndDate" />
+                    </div>
+                }               
+            </div>
+            <hr class="mb-4" />
+            <div class="row">
+                <div class="col-md-2">
+                    <input type="submit" class="btn btn-success" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+<style>
+    .top-margin {
+        margin-top: 24px;
+    }
+</style>

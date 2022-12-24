@@ -19,6 +19,8 @@
                     <th scope="col">Start Date</th>
                     <th scope="col">Currently Employed</th>
                     <th scope="col">End Date</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +34,8 @@
                         <td>@job.StartDate.ToString("MM/dd/yyyy")</td>
                         <td>@BoolHelper.ReturnYesNo(job.CurrentlyEmployed)</td>
                         <td>@DateHelper.GetDateOrNA(job.EndDate)</td>
+                        <td><NavLink href="@($"jobs/upsert/{job.Id}")"><span>Edit</span></NavLink></td>
+                        <td><NavLink href="@($"jobs/salary/{job.Id}")"><span>Salary</span></NavLink></td>
                     </tr>
                 }
             </tbody>
