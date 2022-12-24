@@ -1,5 +1,40 @@
-﻿<h3>List</h3>
+﻿@page "/jobs/list"
+@using FinancialGoalCalculator.Web.Helpers;
 
-@code {
-
-}
+<div class="row">
+    <div class="col-2">
+        <NavLink href="jobs/upsert"><span>Add Job</span></NavLink>
+    </div>
+</div>
+<div class="row">
+    @if (_jobs != null && _jobs.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Employee Name</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Currently Employed</th>
+                    <th scope="col">End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var job in _jobs)
+                {
+                    <tr>
+                        <td>@job.Id</td>
+                        <td>@job.Company</td>
+                        <td>@job.Title</td>
+                        <td>@job.EmployeeName</td>
+                        <td>@job.StartDate.ToString("MM/dd/yyyy")</td>
+                        <td>@BoolHelper.ReturnYesNo(job.CurrentlyEmployed)</td>
+                        <td>@DateHelper.GetDateOrNA(job.EndDate)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
