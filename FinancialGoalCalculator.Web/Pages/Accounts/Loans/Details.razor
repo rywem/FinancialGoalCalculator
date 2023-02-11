@@ -58,7 +58,7 @@
         {
             <table class="table">
                 <tr>
-                    <th scope="col">Period Number</th>
+                    <th scope="col">Period Number</th>                    
                     <th scope="col">Interest Amount</th>
                     <th scope="col">Principle Amount</th>                
                     <th scope="col">Balance Remaining</th>
@@ -67,7 +67,7 @@
                 @foreach(var amort in _amortizationSchedule)
                 {
                     <tr>
-                        <th scope="row">@amort.PeriodNumber</th>
+                        <th scope="row">@(amort.PeriodNumber+1)</th>
                         <td>@amort.InterestAmount.ToString("c")</td>
                         <td>@amort.PrincipalAmount.ToString("c")</td>
                         <td>@amort.PrincipalRemaining.ToString("c")</td>
