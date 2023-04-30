@@ -13,5 +13,7 @@ namespace FinancialGoalCalculator.Web.Entities
         public int JobId { get; set; }
         [ForeignKey("JobId")]
         public Job Job { get; set; }
+        [NotMapped]
+        public bool Edit { get; set; } = false;
     }
 }

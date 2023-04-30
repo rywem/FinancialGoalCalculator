@@ -1,6 +1,82 @@
 ﻿@page "/jobs/salary/{JobId:int}"
 <h3>Salary</h3>
-@JobId
-@code {
 
-}
+<div class="row">
+    <EditForm Model="_newJobSalary" OnValidSubmit="HandleNewSalarySubmit">
+        <div class="shadow p-4">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="SalaryPerYear">Salary Per Year</label>
+                    <InputNumber @bind-Value="_newJobSalary.SalaryPerYear"></InputNumber>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="PaychecksPerYear">Paychecks Per Year</label>
+                    <InputNumber @bind-Value="_newJobSalary.PaychecksPerYear"></InputNumber>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="EffectiveDate">Effective Date</label>
+                    <InputDate @bind-Value="_newJobSalary.EffectiveDate" />
+                </div>                
+                <div class="col-md-3 mb-3">
+                    <input type="submit" class="btn btn-success" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+
+<div class="row">
+    <EditForm Model="_editJobSalary" OnValidSubmit="HandleSubmitRow">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Salary Per Year</th>
+                    <th scope="col">Paychecks Per Year</th>
+                    <th scope="col">Effective Date</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_jobSalaries != null && _jobSalaries.Count > 0)
+                {
+                    @foreach (var jobSalary in _jobSalaries)
+                    {
+                        @if (jobSalary.Edit == false)
+                        {
+                            <tr>
+                                <td scope="row">@jobSalary.Id</td>
+                                <td>@jobSalary.SalaryPerYear.ToString("c")</td>
+                                <td>@jobSalary.PaychecksPerYear</td>
+                                <td>@jobSalary.EffectiveDate.ToString("MM/dd/yyyy")</td>
+                                <td><button type="button" @onclick="() => EditRow(jobSalary)">Edit</button></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td scope="row">@jobSalary.Id</td>
+                                <td>
+                                    <InputNumber @bind-Value="_editJobSalary.SalaryPerYear" />
+                                </td>
+                                <td>
+                                    <InputNumber @bind-Value="_editJobSalary.PaychecksPerYear" />
+                                </td>
+                                <td>
+                                    <InputDate @bind-Value="_editJobSalary.EffectiveDate" />                                    
+                                </td>
+                                <td>
+                                    <button type="button" @onclick="() => EditRow(jobSalary)">Edit</button></td>
+                                <td>
+                                    <input type="submit" value="submit">
+                                </td>
+                            </tr>
+                        }
+                    }            
+                }
+            </tbody>
+        </table>
+    </EditForm>
+</div>
